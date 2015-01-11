@@ -1,0 +1,23 @@
+{
+    "name": "ofat/inline-content",
+    "description": "",
+    "authors": [
+        {
+            "name": "Vitalii [ofat] Ofat",
+            "email": "i@vitaliy-ofat.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations",
+            "src/controllers"
+        ],
+        "psr-0": {
+            "Ofat\\InlineContent\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
