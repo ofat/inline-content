@@ -27,7 +27,7 @@ class TablesCreate extends Migration {
             $table->string('title', 512)->nullable();
             $table->string('html_title', 512)->nullable();
             $table->text('content');
-            $table->string('url', 255)->nullable();
+            $table->string('slug', 255)->nullable();
 
             $table->index('entity_id');
         });

@@ -1,9 +1,11 @@
-<?php namespace Ofat\InlineContent;
+<?php
+
+namespace Ofat\InlineContent;
 
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
-use Nayjest\Common\ViewsIntegration;
 
-class ServiceProvider extends BaseServiceProvider {
+class ServiceProvider extends BaseServiceProvider
+{
 
 	/**
 	 * Indicates if loading of the provider is deferred.
@@ -19,10 +21,13 @@ class ServiceProvider extends BaseServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('Ofat/content');
+		$this->package('ofat/inline-content');
+
+		$this->app['html']->macro('inlineContent', function($slug){
+			return EditableMacros::render($slug);
+		});
 
         include __DIR__ . '/../../routes.php';
-        ViewsIntegration::apply('content');
 	}
 
 	/**
