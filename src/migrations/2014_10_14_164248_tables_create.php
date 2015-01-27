@@ -12,22 +12,21 @@ class TablesCreate extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('content_entity', function(Blueprint $table) {
+        Schema::create('content_entity', function(Blueprint $table) {
             $table->increments('id');
-            $table->smallInteger('type');
+            $table->string('slug', 255);
             $table->smallInteger('is_published')->default(0);
             $table->integer('author');
             $table->timestamps();
+
+            $table->index('slug');
         });
 
         Schema::create('content_entity_translation', function(Blueprint $table) {
             $table->increments('id');
             $table->integer('entity_id');
             $table->string('language', 2);
-            $table->string('title', 512)->nullable();
-            $table->string('html_title', 512)->nullable();
             $table->text('content');
-            $table->string('slug', 255)->nullable();
 
             $table->index('entity_id');
         });

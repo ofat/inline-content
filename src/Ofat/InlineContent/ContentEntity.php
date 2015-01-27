@@ -20,6 +20,7 @@ use Nayjest\I18n\Eloquent\Translated;
  *
  * @method static|Builder whereType($type)
  * @method static|Builder forSlug($slug)
+ * @method static|Builder published()
  *
  * @package content
  */
@@ -28,16 +29,13 @@ class ContentEntity extends \Eloquent
 
     use Translated;
 
-    const TYPE_PAGE = 1;
-    const TYPE_BLOCK = 2;
-
     const PUBLISHED = 1;
     const NON_PUBLISHED = 0;
 
     protected $table = 'content_entity';
 
     protected $fillable = [
-        'type',
+        'slug',
         'is_published',
         'author',
         'created_at',
@@ -45,7 +43,7 @@ class ContentEntity extends \Eloquent
     ];
 
     public static $rules = [
-        'type' => 'required',
+        'slug' => 'required',
         'author' => 'required'
     ];
 
@@ -58,11 +56,16 @@ class ContentEntity extends \Eloquent
     {
         $query->leftJoin('content_entity_translation', function($join) {
             $join->on('content_entity_translation.entity_id', '=', $this->getTable().'.id');
+            $join->on('content_entity_translation.language', '=', \DB::raw('"'.\App::getLocale().'"'));
         });
-        $query->where('content_entity_translation.slug', '=', $slug);
-        $query->where('content_entity_translation.language', '=', \App::getLocale());
+        $query->where($this->getTable().'.slug', '=', $slug);
 
         return $query;
+    }
+
+    public function scopePublished(Builder $query)
+    {
+        return $query->where($this->getTable().'.is_published', '=', static::PUBLISHED);
     }
 
 }

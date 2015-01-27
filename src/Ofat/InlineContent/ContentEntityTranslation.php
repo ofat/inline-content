@@ -10,7 +10,6 @@ use Nayjest\I18n\Eloquent\Translation;
 
 class ContentEntityTranslation extends \Eloquent
 {
-
     use Translation;
 
     protected $table = 'content_entity_translation';
@@ -20,8 +19,6 @@ class ContentEntityTranslation extends \Eloquent
     protected $fillable = [
         'entity_id',
         'language',
-        'title',
-        'html_title',
         'content',
         'slug'
     ];

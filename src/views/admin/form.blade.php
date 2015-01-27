@@ -22,22 +22,11 @@
                 Is Published
             </label>
         </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-8 col-md-offset-2">
         <div class="form-group">
-            <label class="control-label">
-                Type:
-            </label>
-            <label class="radio-inline">
-                {{ Form::radio('type', ContentEntity::TYPE_PAGE, $model->type == ContentEntity::TYPE_PAGE) }}
-                Page
-            </label>
-            <label class="radio-inline">
-                {{ Form::radio('type', ContentEntity::TYPE_BLOCK, $model->type == ContentEntity::TYPE_BLOCK) }}
-                Block
-            </label>
+            <div class="form-group">
+                {{ Form::label("slug", trans('Slug').':') }}
+                {{ Form::text("slug", $model->slug, ['class' => 'form-control']) }}
+            </div>
         </div>
     </div>
 </div>
@@ -54,18 +43,6 @@
             <?php $i = 0; ?>
             @foreach(\I18n::getSupportedLanguages() as $lang_key => $lang_caption)
             <div class="tab-pane entity-lang-block{{ !$i ? ' active' : ''}}" id="entity-lang-{{ $lang_key }}">
-                <div class="form-group">
-                    {{ Form::label("translations[{$lang_key}][title]", t('Title').':') }}
-                    {{ Form::text("translations[{$lang_key}][title]", @$model->getTranslation($lang_key)->title, ['class' => 'form-control title-input']) }}
-                </div>
-                <div class="form-group">
-                    {{ Form::label("translations[{$lang_key}][html_title]", t('HTML Title').':') }}
-                    {{ Form::text("translations[{$lang_key}][html_title]", @$model->getTranslation($lang_key)->html_title, ['class' => 'form-control']) }}
-                </div>
-                <div class="form-group">
-                    {{ Form::label("translations[{$lang_key}][slug]", t('Slug').':') }}
-                    {{ Form::text("translations[{$lang_key}][slug]", @$model->getTranslation($lang_key)->slug, ['class' => 'form-control']) }}
-                </div>
                 <div class="form-group">
                     {{ Form::label("translations[{$lang_key}][content]", t('Content').':') }}
                     {{ Form::textarea("translations[{$lang_key}][content]", @$model->getTranslation($lang_key)->content, ['class' => 'form-control richtext']) }}

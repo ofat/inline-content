@@ -12,7 +12,9 @@ class EditableMacros
 {
     public static function render($slug)
     {
-        $model = ContentEntity::forSlug($slug)->firstOrFail();
+        $model = ContentEntity::forSlug($slug)->published()->first();
+        if(!$model)
+            return '';
 
         $adminCheck = Config::get('inline-content::admin_check');
         if(is_callable($adminCheck) && $adminCheck())
