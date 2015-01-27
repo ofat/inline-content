@@ -10,26 +10,10 @@
 {{ Html::style('packages/ofat/inline-content/css/frontend.css') }}
 
 <script>
-!function($){
-    var $elem = $('#{{ $id }}');
-    CKEDITOR.disableAutoInline = true;
-    CKEDITOR.inline( '{{ $id }}',{
-        on: {
-            blur: function( event ) {
-                var data = event.editor.getData();
-
-                jQuery.ajax({
-                    url: '{{ route('content.admin.inline-save') }}',
-                    type: "POST",
-                    data: {
-                        content: data,
-                        id: $elem.data('id'),
-                        language: $elem.data('language')
-                    }
-                });
-
-            }
-        }
-    });
-}(jQuery);
+!function(){
+    (new InlineContent())
+            .setElement('{{ $id }}')
+            .setUrl('{{ route('content.admin.inline-save') }}')
+            .init();
+}();
 </script>

@@ -1,4 +1,5 @@
 .editable-block {
     border: 1px dashed rgba(0, 0, 0, .3);
     position: relative;
+    -webkit-user-modify: read-write;
 }
