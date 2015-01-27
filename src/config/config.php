@@ -9,6 +9,6 @@ return [
         'en'
     ],
     'admin_check' => function() {
-        return true;
+        return \Auth::check() && \Auth::user()->isAdmin();
     }
 ];
