@@ -12,7 +12,7 @@ class EditableMacros
 {
     public static function render($slug)
     {
-        $model = ContentEntity::forSlug($slug)->published()->first();
+        $model = ContentEntity::remember(Config::get('inline-content::cacheTime', 5), $slug.'-'.\App::getLocale())->forSlug($slug)->published()->first();
         if(!$model)
             return '';
 

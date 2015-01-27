@@ -85,6 +85,8 @@ class AdminController extends \BaseController
         $model = $this->model->withTranslation($data['language'])->whereId($data['id'])->first();
         $model->translation->content = $data['content'];
         $model->translation->save();
+
+        \Cache::forget($model->slug.'-'.\App::getLocale());
     }
 
 }

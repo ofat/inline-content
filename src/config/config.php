@@ -10,5 +10,6 @@ return [
     ],
     'admin_check' => function() {
         return \Auth::check() && \Auth::user()->isAdmin();
-    }
+    },
+    'cacheTime' => 24*60
 ];
