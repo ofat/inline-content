@@ -6,7 +6,7 @@
 return [
     'Title' => 'Заголовок',
     'HTML Title' => 'HTML Title',
-    'URL' => 'URL',
+    'Slug' => 'Slug',
     'Content' => 'Содержимое',
     'Save' => 'Сохранить'
 ];

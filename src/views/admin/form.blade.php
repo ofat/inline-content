@@ -5,9 +5,9 @@
 
 @section('title')
     @if($model->exists)
-    Edit {{ $type }} # {{ $model->id }}
+    Edit entity # {{ $model->id }}
     @else
-    Adding {{ $type }}
+    Adding entity
     @endif
 @stop
 
@@ -20,6 +20,23 @@
             <label class="control-label">
                 {{ Form::checkbox('is_published', ContentEntity::PUBLISHED, $model->is_published) }}
                 Is Published
+            </label>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="form-group">
+            <label class="control-label">
+                Type:
+            </label>
+            <label class="radio-inline">
+                {{ Form::radio('type', ContentEntity::TYPE_PAGE, $model->type == ContentEntity::TYPE_PAGE) }}
+                Page
+            </label>
+            <label class="radio-inline">
+                {{ Form::radio('type', ContentEntity::TYPE_BLOCK, $model->type == ContentEntity::TYPE_BLOCK) }}
+                Block
             </label>
         </div>
     </div>
@@ -46,12 +63,12 @@
                     {{ Form::text("translations[{$lang_key}][html_title]", @$model->getTranslation($lang_key)->html_title, ['class' => 'form-control']) }}
                 </div>
                 <div class="form-group">
-                    {{ Form::label("translations[{$lang_key}][url]", t('URL').':') }}
-                    {{ Form::text("translations[{$lang_key}][url]", @$model->getTranslation($lang_key)->url, ['class' => 'form-control']) }}
+                    {{ Form::label("translations[{$lang_key}][slug]", t('Slug').':') }}
+                    {{ Form::text("translations[{$lang_key}][slug]", @$model->getTranslation($lang_key)->slug, ['class' => 'form-control']) }}
                 </div>
                 <div class="form-group">
                     {{ Form::label("translations[{$lang_key}][content]", t('Content').':') }}
-                    {{ Form::textarea("translations[{$lang_key}][content]", @$model->getTranslation($lang_key)->url, ['class' => 'form-control richtext']) }}
+                    {{ Form::textarea("translations[{$lang_key}][content]", @$model->getTranslation($lang_key)->content, ['class' => 'form-control richtext']) }}
                 </div>
             </div>
             <?php ++$i ?>

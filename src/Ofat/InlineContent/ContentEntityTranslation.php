@@ -6,10 +6,16 @@
 namespace Ofat\InlineContent;
 
 
+use Nayjest\I18n\Eloquent\Translation;
+
 class ContentEntityTranslation extends \Eloquent
 {
 
+    use Translation;
+
     protected $table = 'content_entity_translation';
+
+    public $timestamps = false;
 
     protected $fillable = [
         'entity_id',
@@ -17,7 +23,7 @@ class ContentEntityTranslation extends \Eloquent
         'title',
         'html_title',
         'content',
-        'url'
+        'slug'
     ];
 
     protected static $relationName = 'entity';

@@ -1,21 +1,19 @@
 @extends($layout)
 
 @section('title')
-Content - {{ ucfirst($type) }}
+Content
 @stop
 
 @section($contentSection)
 <div class="row">
     <div class="col-md-4">
         <div class="form-group">
-            <a href="{{ route('content.admin.index', ['pages']) }}" class="btn btn-info">Pages</a>
-            <a href="{{ route('content.admin.index', ['blocks']) }}" class="btn btn-info">Blocks</a>
+            <a href="{{ route('content.admin.index') }}" class="btn btn-info">List</a>
         </div>
     </div>
     <div class="col-md-4 col-md-offset-4">
         <div class="form-group text-right">
-            <a href="{{ route('content.admin.create', ['page']) }}" class="btn btn-primary">Add new page</a>
-            <a href="{{ route('content.admin.create', ['block']) }}" class="btn btn-primary">Add new block</a>
+            <a href="{{ route('content.admin.create') }}" class="btn btn-primary">Add new entity</a>
         </div>
     </div>
 </div>
@@ -25,12 +23,16 @@ Content - {{ ucfirst($type) }}
             <thead>
                 <tr>
                     <th>Id</th>
+                    <th>Slug</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($models as $model)
                 <tr>
                     <td>{{ $model->id }}</td>
+                    <td>
+                        {{ $model->translation->slug }}
+                    </td>
                 </tr>
                 @endforeach
             </tbody>

@@ -6,10 +6,13 @@
 namespace Ofat\InlineContent;
 
 use Nayjest\Common\Controller\Resource;
+use Redirect;
 use View;
 
 class AdminController extends \BaseController
 {
+
+    use Resource;
 
     /**
      * @param ContentEntity $model
@@ -20,51 +23,68 @@ class AdminController extends \BaseController
     }
 
     /**
-     * @param string $type
-     * @throws \Exception
-     */
-    protected function checkType($type)
-    {
-        $availableTypes = ['pages', 'blocks', 'page', 'block'];
-        if(!in_array($type, $availableTypes))
-            throw new \Exception('Wrong content type');
-    }
-
-    /**
      * @param $name
      * @param array $data
      * @return \Illuminate\View\View
      */
     protected function makeView($name, array $data)
     {
-        return View::make('content::admin.'.$name, $data);
+        return View::make('inline-content::admin.'.$name, $data);
     }
 
     /**
-     * @param $type
      * @return \Illuminate\View\View
-     * @throws \Exception
+     * @internal param $type
      */
-    public function getIndex($type)
+    public function getIndex()
     {
-        $this->checkType($type);
+        $models = $this->model->paginate();
 
-        $models = $this->model->whereType($type)->get();
-
-        return $this->makeView('index', compact('models', 'type'));
+        return $this->makeView('index', compact('models'));
     }
 
     /**
-     * @param $type
      * @return \Illuminate\View\View
      * @throws \Exception
      */
-    public function getCreate($type)
+    public function getCreate()
     {
-        $this->checkType($type);
         $model = $this->model;
-        return $this->makeView('form_'.$type, compact('model', 'type'));
+        return $this->makeView('form', compact('model'));
     }
 
+    public function postCreate()
+    {
+        $attributes = \Input::all();
+        $attributes['author'] = \Auth::user()->id;
+
+        $translations = $attributes['translations'];
+        unset($attributes['translations']);
+
+        $validation = $this->validate($attributes);
+        if($validation->passes()) {
+            $model = $this->model->create($attributes);
+            foreach($translations as $lang => $tr) {
+                $model->createTranslation($lang)->fill($tr)->save();
+            }
+
+            return  Redirect::action(get_class($this) . '@getIndex')
+                ->with('message', 'Entity created.')
+                ->with('message_type', 'success');
+        }
+
+        return  Redirect::action(get_class($this) . '@getCreate')
+            ->withInput()
+            ->withErrors($validation)
+            ->with('message', 'There were validation errors.');
+    }
+
+    public function postInlineSave()
+    {
+        $data = \Input::only(['content', 'id', 'language']);
+        $model = $this->model->withTranslation($data['language'])->whereId($data['id'])->first();
+        $model->translation->content = $data['content'];
+        $model->translation->save();
+    }
 
 }

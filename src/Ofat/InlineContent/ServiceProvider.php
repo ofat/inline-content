@@ -3,6 +3,7 @@
 namespace Ofat\InlineContent;
 
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use Nayjest\Common\ViewsIntegration;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -22,6 +23,8 @@ class ServiceProvider extends BaseServiceProvider
 	public function boot()
 	{
 		$this->package('ofat/inline-content');
+
+		ViewsIntegration::apply('inline-content');
 
 		$this->app['html']->macro('inlineContent', function($slug){
 			return EditableMacros::render($slug);

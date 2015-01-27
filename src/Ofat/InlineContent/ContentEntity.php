@@ -6,6 +6,7 @@
 namespace Ofat\InlineContent;
 
 use Illuminate\Database\Eloquent\Builder;
+use Nayjest\I18n\Eloquent\Translated;
 
 /**
  * Class ContentEntity
@@ -18,11 +19,14 @@ use Illuminate\Database\Eloquent\Builder;
  * @property string $updated_at
  *
  * @method static|Builder whereType($type)
+ * @method static|Builder forSlug($slug)
  *
  * @package content
  */
 class ContentEntity extends \Eloquent
 {
+
+    use Translated;
 
     const TYPE_PAGE = 1;
     const TYPE_BLOCK = 2;
@@ -39,5 +43,26 @@ class ContentEntity extends \Eloquent
         'created_at',
         'updated_at'
     ];
+
+    public static $rules = [
+        'type' => 'required',
+        'author' => 'required'
+    ];
+
+    /**
+     * @param Builder $query
+     * @param string $slug
+     * @return Builder
+     */
+    public function scopeForSlug(Builder $query, $slug)
+    {
+        $query->leftJoin('content_entity_translation', function($join) {
+            $join->on('content_entity_translation.entity_id', '=', $this->getTable().'.id');
+        });
+        $query->where('content_entity_translation.slug', '=', $slug);
+        $query->where('content_entity_translation.language', '=', \App::getLocale());
+
+        return $query;
+    }
 
 }
