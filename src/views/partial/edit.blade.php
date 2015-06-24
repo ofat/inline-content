@@ -1,8 +1,8 @@
 <?php
     $id = uniqid();
 ?>
-<div class="editable-block" id="{{ $id }}" data-id="{{ $model->entity_id }}" data-language="{{ $model->language }}" contenteditable="true">
-    {{ $model->content }}
+<div class="editable-block" id="{{ $id }}" data-id="{{ $model->id }}" data-language="{{ $translation->language }}" contenteditable="true">
+    {{ $translation->content }}
 </div>
 
 <script src="//cdn.ckeditor.com/4.4.6/full/ckeditor.js"></script>

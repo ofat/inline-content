@@ -54,10 +54,6 @@ class ContentEntity extends \Eloquent
      */
     public function scopeForSlug(Builder $query, $slug)
     {
-        $query->leftJoin('content_entity_translation', function($join) {
-            $join->on('content_entity_translation.entity_id', '=', $this->getTable().'.id');
-            $join->on('content_entity_translation.language', '=', \DB::raw('"'.\App::getLocale().'"'));
-        });
         $query->where($this->getTable().'.slug', '=', $slug);
 
         return $query;
