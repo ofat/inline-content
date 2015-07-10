@@ -19,6 +19,7 @@
             init: function() {
                 CKEDITOR.disableAutoInline = true;
                 CKEDITOR.inline( elemId, {
+                    customConfig: '/packages/ofat/inline-content/js/ckeditor/config.js',
                     on: {
                         blur: function (event) {
                             var data = event.editor.getData();
