@@ -18,6 +18,9 @@ class EditableMacros
             ->published()
             ->first();
 
+        if(!$model)
+            return $slug;
+
         $translation = $model->getTranslation(\App::getLocale(), true);
 
         $adminCheck = Config::get('inline-content::admin_check');
