@@ -31,7 +31,7 @@ Content
                 <tr>
                     <td>{{ $model->id }}</td>
                     <td>
-                        {{ $model->translation->slug }}
+                        {{ $model->slug }}
                     </td>
                 </tr>
                 @endforeach
