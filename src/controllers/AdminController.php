@@ -5,11 +5,17 @@
 
 namespace Ofat\InlineContent;
 
+use App;
+use Auth;
+use BaseController;
+use Cache;
+use Exception;
+use Input;
 use Nayjest\Common\Controller\Resource;
 use Redirect;
 use View;
 
-class AdminController extends \BaseController
+class AdminController extends BaseController
 {
 
     use Resource;
@@ -45,7 +51,7 @@ class AdminController extends \BaseController
 
     /**
      * @return \Illuminate\View\View
-     * @throws \Exception
+     * @throws Exception
      */
     public function getCreate()
     {
@@ -55,8 +61,8 @@ class AdminController extends \BaseController
 
     public function postCreate()
     {
-        $attributes = \Input::all();
-        $attributes['author'] = \Auth::user()->id;
+        $attributes = Input::all();
+        $attributes['author'] = Auth::user()->id;
 
         $translations = $attributes['translations'];
         unset($attributes['translations']);
@@ -81,12 +87,13 @@ class AdminController extends \BaseController
 
     public function postInlineSave()
     {
-        $data = \Input::only(['content', 'id', 'language']);
+        $data = Input::only(['content', 'id', 'language']);
         $model = $this->model->withTranslation($data['language'])->whereId($data['id'])->first();
         $model->translation->content = $data['content'];
         $model->translation->save();
 
-        \Cache::forget($model->slug.'-'.\App::getLocale());
+        Cache::forget($model->slug.'-'. App::getLocale());
+        Cache::forget($model->slug.'-'. App::getLocale().'-translation');
     }
 
 }
