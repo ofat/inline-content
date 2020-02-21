@@ -92,8 +92,10 @@ class AdminController extends BaseController
         $model->translation->content = $data['content'];
         $model->translation->save();
 
-        Cache::forget($model->slug.'-'. App::getLocale());
-        Cache::forget($model->slug.'-'. App::getLocale().'-translation');
+        list($model_remember_slug, $translation_remember_slug) = EditableMacros::getRememberKeys($model->slug, App::getLocale());
+
+        Cache::forget($model_remember_slug);
+        Cache::forget($translation_remember_slug);
     }
 
 }

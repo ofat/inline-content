@@ -12,11 +12,18 @@ use View;
 
 class EditableMacros
 {
+    public static function getRememberKeys($slug, $lang)
+    {
+        return [
+            $slug . '-' . $lang,
+            $slug . '-' . $lang . '-translation'
+        ];
+    }
+
     public static function render($slug)
     {
-        $model_remember_slug       = $slug . '-' . App::getLocale();
-        $translation_remember_slug = $slug . '-' . App::getLocale() . '-translation';
-            
+        list($model_remember_slug, $translation_remember_slug) = static::getRememberKeys($slug, App::getLocale());
+
         $model = ContentEntity
             ::remember(Config::get('inline-content::cacheTime', 5), $model_remember_slug)
             ->forSlug($slug)
